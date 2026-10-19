@@ -43,9 +43,18 @@ RLS and branch-scoped policies are present, with defense-in-depth tenant-referen
 
 ## Tests
 
-Results are recorded during the final verification pass. Database tests require a running local Supabase stack. Browser tests require Playwright Chromium.
+- ESLint: passed with zero warnings
+- TypeScript: passed with `tsc --noEmit`
+- Unit tests: 14 passed across phone normalization, SMS template safety/deduplication and billing calculations
+- Next.js production build: passed on Next.js 16.4.2
+- Browser tests: 4 passed across installed desktop Chrome and Pixel 7 emulation, including mobile horizontal-overflow coverage
+- HTTP smoke check: `/dashboard` returned 200
+- Cloudflare Worker conversion: passed with OpenNext 1.20.12
+- Production dependency audit: 0 known vulnerabilities (`npm audit --omit=dev`)
+- Development toolchain audit: 9 high transitive advisories remain in ESLint/OpenNext glob dependencies; they are excluded from the production dependency graph and require upstream fixes or a reviewed toolchain change
+- Database/RLS execution: not run locally because this workstation has neither Docker nor the Supabase CLI; the SQL attack test is included and required by CI
 
 ## Database and deployment
 
-The migration has not yet been applied to a real Supabase project. Cloudflare code is configured but production variables and external services are not connected. No production school data has been created or modified.
+The migration has not yet been applied to a real Supabase project. The application has been deployed privately to ChatGPT Sites as a Cloudflare Worker, but production variables and external services are not connected. No production school data has been created or modified.
 
